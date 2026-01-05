@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mark Tasks</title>
+  </head>
+  <body>
+    <h1>Mark Today's Tasks</h1>
+
+    <ul>
+      {% for task, task_name in tasks %}
+      <li>
+        {% if task.completed %} ✔️ {{ task_name }} {% if task.completed_at %}
+        ({{ task.completed_at }}) {% endif %} {% else %} {{ task_name }}
+        <form method="post" action="/tasks/{{ task.id }}/complete">
+          <button type="submit">Mark Done</button>
+        </form>
+        {% endif %}
+      </li>
+      {% else %}
+      <li>No tasks available.</li>
+      {% endfor %}
+    </ul>
+
+    <hr />
+    <a href="/">🔙 Back to Home</a>
+  </body>
+</html>

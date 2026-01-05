@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Create Tasks</title>
+  </head>
+  <body>
+    <h1>Create Daily Task</h1>
+
+    <form method="post" action="/create/add">
+      <input type="text" name="name" placeholder="Task name" required />
+      <button type="submit">Add Task</button>
+    </form>
+
+    <h2>Existing Task Templates</h2>
+
+    <ul>
+      {% for t in templates %}
+      <li>
+        {{ t.name }} - {% if t.is_active %} Active {% else %} Inactive {% endif
+        %}
+
+        <form
+          method="post"
+          action="/create/{{ t.id }}/toggle"
+          style="display: inline"
+        >
+          <button type="submit">
+            {% if t.is_active %}Disable{% else %}Enable{% endif %}
+          </button>
+        </form>
+      </li>
+      {% else %}
+      <li>No task templates defined.</li>
+      {% endfor %}
+    </ul>
+
+    <hr />
+    <a href="/">🔙 Back to Home</a>
+  </body>
+</html>

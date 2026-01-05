@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+</head>
+<body>
+
+<h1>Dashboard</h1>
+
+<p>🔥 <strong>Current Streak:</strong> {{ data.current_streak }} days</p>
+<p>🏆 <strong>Best Streak:</strong> {{ data.best_streak }} days</p>
+
+<hr>
+
+<h3>Weekly Completion</h3>
+<ul>
+{% for day in data.weekly %}
+  <li>{{ day.date }} - {{ day.percent }}%</li>
+{% else %}
+  <li>No data available.</li>
+{% endfor %}
+</ul>
+
+<hr>
+
+<h3>Task-wise Consistency</h3>
+<ul>
+{% for t in data.task_consistency %}
+  <li>{{ t.task }} - {{ t.percent }}%</li>
+{% else %}
+  <li>No task data available.</li>
+{% endfor %}
+</ul>
+
+<hr>
+<a href="/">🔙 Back to Home</a>
+
+</body>
+</html>

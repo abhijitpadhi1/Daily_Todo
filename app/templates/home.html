@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Daily Task Tracker</title>
+  <style>
+    .progress-container {
+      width: 100%;
+      background: #ddd;
+      height: 14px;
+      border-radius: 6px;
+      overflow: hidden;
+      margin: 8px 0;
+    }
+    .progress-bar {
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Daily Task Tracker</h1>
+
+<h3>Today's Tasks</h3>
+<ul>
+{% for task, task_name in tasks %}
+  <li>
+    {% if task.completed %}
+      ✔️ {{ task_name }}
+    {% else %}
+      ⭕ {{ task_name }}
+    {% endif %}
+  </li>
+{% else %}
+  <li>No tasks for today.</li>
+{% endfor %}
+</ul>
+
+{% set pct = progress.percent %}
+
+{# Color + Emoji #}
+{% if pct <= 25 %}
+  {% set color = "red" %}
+  {% set emoji = "😞" %}
+{% elif pct <= 60 %}
+  {% set color = "orange" %}
+  {% set emoji = "🙃" %}
+{% else %}
+  {% set color = "green" %}
+  {% set emoji = "🥲" %}
+{% endif %}
+
+{# Motivation text #}
+{% if pct <= 12 %}
+  {% set message = "Start small. Starting is winning." %}
+{% elif pct <= 25 %}
+  {% set message = "Momentum begins with one task." %}
+{% elif pct <= 37 %}
+  {% set message = "Good. You are moving." %}
+{% elif pct <= 50 %}
+  {% set message = "Halfway there. Do not stop." %}
+{% elif pct <= 62 %}
+  {% set message = "This is where discipline shows." %}
+{% elif pct <= 75 %}
+  {% set message = "Strong finish loading." %}
+{% elif pct <= 87 %}
+  {% set message = "Almost a perfect day." %}
+{% else %}
+  {% set message = "Elite day. Be proud." %}
+{% endif %}
+
+<p>
+  Progress: {{ progress.completed }} / {{ progress.total }}
+  ({{ "%.2f"|format(pct) }}%) {{ emoji }}
+</p>
+
+<div class="progress-container">
+  <div class="progress-bar"
+       style="width: {{ pct }}%; background: {{ color }};">
+  </div>
+</div>
+
+<p><em>{{ message }}</em></p>
+
+<hr>
+
+<nav>
+  <a href="/tasks/today">Mark Tasks</a> |
+  <a href="/create">Create Tasks</a> |
+  <a href="/dashboard">Dashboard</a>
+</nav>
+
+</body>
+</html>
