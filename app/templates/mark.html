@@ -2,26 +2,39 @@
 <html>
   <head>
     <title>Mark Tasks</title>
+    <link rel="stylesheet" href="/static/style.css">
   </head>
   <body>
-    <h1>Mark Today's Tasks</h1>
+    <div class="container">
+      <h1>Mark Today's Tasks</h1>
 
-    <ul>
-      {% for task, task_name in tasks %}
-      <li>
-        {% if task.completed %} ✔️ {{ task_name }} {% if task.completed_at %}
-        ({{ task.completed_at }}) {% endif %} {% else %} {{ task_name }}
-        <form method="post" action="/tasks/{{ task.id }}/complete">
-          <button type="submit">Mark Done</button>
-        </form>
-        {% endif %}
-      </li>
-      {% else %}
-      <li>No tasks available.</li>
-      {% endfor %}
-    </ul>
+      <div class="date-display">
+        📅 {{ today if today else "2026-01-04" }}
+      </div>
 
-    <hr />
-    <a href="/">🔙 Back to Home</a>
+      <ul>
+        {% for task, task_name in tasks %}
+        <li class="{% if task.completed %}task-completed{% else %}task-pending{% endif %}">
+          <span>
+            <span class="task-checkbox">{% if task.completed %}✔{% else %}⭕{% endif %}</span>
+            {{ task_name }}
+            {% if task.completed and task.completed_at %}
+            <span style="color: #666; font-size: 0.9em; margin-left: 10px;">({{ task.completed_at }})</span>
+            {% endif %}
+          </span>
+          {% if not task.completed %}
+          <form method="post" action="/tasks/{{ task.id }}/complete" style="display: inline;">
+            <button type="submit">Mark Done</button>
+          </form>
+          {% endif %}
+        </li>
+        {% else %}
+        <li>No tasks available.</li>
+        {% endfor %}
+      </ul>
+
+      <hr />
+      <a href="/" class="back-link">🔙 Back to Home</a>
+    </div>
   </body>
 </html>

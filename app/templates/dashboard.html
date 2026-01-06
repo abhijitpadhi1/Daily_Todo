@@ -1,39 +1,74 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Dashboard</title>
-</head>
-<body>
+  <head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body class="dashboard-page">
+    <div class="container">
+      <h1>Dashboard</h1>
 
-<h1>Dashboard</h1>
+      <div class="dashboard-content">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div>🔥 Current Streak</div>
+            <strong>{{ data.current_streak }}</strong>
+            <div style="font-size: 0.9em; margin-top: 5px">days</div>
+          </div>
+          <div class="stat-card">
+            <div>🏆 Best Streak</div>
+            <strong>{{ data.best_streak }}</strong>
+            <div style="font-size: 0.9em; margin-top: 5px">days</div>
+          </div>
+        </div>
 
-<p>🔥 <strong>Current Streak:</strong> {{ data.current_streak }} days</p>
-<p>🏆 <strong>Best Streak:</strong> {{ data.best_streak }} days</p>
+        <div class="weekly-section">
+          <h3>Weekly Completion</h3>
+          <ul>
+            {% for day in data.weekly %}
+            <li class="weekly-item">
+              <span class="day-label">{{ day.date }}</span>
+              <div class="progress-container" style="flex: 1; margin: 0 15px">
+                <div
+                  class="progress-bar"
+                  style="width: {{ day.percent }}%;"
+                ></div>
+              </div>
+              <span style="font-weight: 600; min-width: 50px"
+                >{{ "%.2f"|format(day.percent) }}%</span
+              >
+            </li>
+            {% else %}
+            <li>No data available.</li>
+            {% endfor %}
+          </ul>
+        </div>
 
-<hr>
+        <div class="consistency-section">
+          <h3>Task-wise Consistency</h3>
+          <ul>
+            {% for t in data.task_consistency %}
+            <li class="consistency-item">
+              <span class="task-name">{{ t.task }}</span>
+              <div class="consistency-bar">
+                <div class="progress-container">
+                  <div
+                    class="progress-bar"
+                    style="width: {{ t.percent }}%;"
+                  ></div>
+                </div>
+              </div>
+              <span class="consistency-percent">{{ t.percent }}%</span>
+            </li>
+            {% else %}
+            <li>No task data available.</li>
+            {% endfor %}
+          </ul>
+        </div>
 
-<h3>Weekly Completion</h3>
-<ul>
-{% for day in data.weekly %}
-  <li>{{ day.date }} - {{ day.percent }}%</li>
-{% else %}
-  <li>No data available.</li>
-{% endfor %}
-</ul>
-
-<hr>
-
-<h3>Task-wise Consistency</h3>
-<ul>
-{% for t in data.task_consistency %}
-  <li>{{ t.task }} - {{ t.percent }}%</li>
-{% else %}
-  <li>No task data available.</li>
-{% endfor %}
-</ul>
-
-<hr>
-<a href="/">🔙 Back to Home</a>
-
-</body>
+        <hr />
+        <a href="/" class="back-link">🔙 Back to Home</a>
+      </div>
+    </div>
+  </body>
 </html>

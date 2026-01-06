@@ -15,7 +15,7 @@ def home(request: Request, db: Session = Depends(get_db)):
     # Safety net: ensure today exists
     ensure_day_exists(db)
 
-    tasks = get_today_tasks(db)
+    tasks, today = get_today_tasks(db)
     progress = get_today_progress(db)
 
     return templates.TemplateResponse(
@@ -23,6 +23,7 @@ def home(request: Request, db: Session = Depends(get_db)):
         {
             "request": request,
             "tasks": tasks,
+            "today": today,
             "progress": progress
         }
     )

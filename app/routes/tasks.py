@@ -11,13 +11,14 @@ router = APIRouter(prefix="/tasks")
 @router.get("/today")
 def show_today_tasks(request: Request, db: Session = Depends(get_db)):
     """Display today's tasks for marking completion."""
-    tasks = get_today_tasks(db)
+    tasks, today = get_today_tasks(db)
 
     return templates.TemplateResponse(
         "mark.html",
         {
             "request": request,
-            "tasks": tasks
+            "tasks": tasks,
+            "today": today
         }
     )
 

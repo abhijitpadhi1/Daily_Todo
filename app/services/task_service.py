@@ -21,7 +21,7 @@ def get_today_tasks(db: Session) -> list[tuple[DailyTask, str]]:
         db.query(DailyTask, TaskTemplate.name)
         .join(TaskTemplate, DailyTask.task_id == TaskTemplate.id)
         .filter(DailyTask.task_date == today)
-        .all()
+        .all(), today
     )
 
 
