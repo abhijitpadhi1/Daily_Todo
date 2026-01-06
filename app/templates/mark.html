@@ -8,33 +8,35 @@
     <div class="container">
       <h1>Mark Today's Tasks</h1>
 
-      <div class="date-display">
-        📅 {{ today if today else "2026-01-04" }}
-      </div>
+      <div class="dashboard-content">
+        <div class="date-display">
+          📅 {{ today if today else "2026-01-04" }}
+        </div>
 
-      <ul>
-        {% for task, task_name in tasks %}
-        <li class="{% if task.completed %}task-completed{% else %}task-pending{% endif %}">
-          <span>
-            <span class="task-checkbox">{% if task.completed %}✔{% else %}⭕{% endif %}</span>
-            {{ task_name }}
-            {% if task.completed and task.completed_at %}
-            <span style="color: #666; font-size: 0.9em; margin-left: 10px;">({{ task.completed_at }})</span>
+        <ul>
+          {% for task, task_name in tasks %}
+          <li class="{% if task.completed %}task-completed{% else %}task-pending{% endif %}">
+            <span>
+              <span class="task-checkbox">{% if task.completed %}✔{% else %}⭕{% endif %}</span>
+              {{ task_name }}
+              {% if task.completed and task.completed_at %}
+              <span style="color: #666; font-size: 0.9em; margin-left: 10px;">({{ task.completed_at }})</span>
+              {% endif %}
+            </span>
+            {% if not task.completed %}
+            <form method="post" action="/tasks/{{ task.id }}/complete" style="display: inline;">
+              <button type="submit">Mark Done</button>
+            </form>
             {% endif %}
-          </span>
-          {% if not task.completed %}
-          <form method="post" action="/tasks/{{ task.id }}/complete" style="display: inline;">
-            <button type="submit">Mark Done</button>
-          </form>
-          {% endif %}
-        </li>
-        {% else %}
-        <li>No tasks available.</li>
-        {% endfor %}
-      </ul>
+          </li>
+          {% else %}
+          <li>No tasks available.</li>
+          {% endfor %}
+        </ul>
 
-      <hr />
-      <a href="/" class="back-link">🔙 Back to Home</a>
+        <hr />
+        <a href="/" class="back-link">🔙 Back to Home</a>
+      </div>
     </div>
   </body>
 </html>

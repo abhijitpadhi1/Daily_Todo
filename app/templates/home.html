@@ -8,60 +8,64 @@
     <div class="container">
       <h1>Daily Task Tracker</h1>
 
-      <div class="date-display">
-        📅 Today: {{ today if today else "2026-01-04" }}
-      </div>
+      <div class="dashboard-content">
+        <div class="date-display">
+          📅 Today: {{ today if today else "2026-01-04" }}
+        </div>
 
-      <h3>Today's Tasks</h3>
-      <ul>
-        {% for task, task_name in tasks %}
-        <li
-          class="{% if task.completed %}task-completed{% else %}task-pending{% endif %}"
-        >
-          <span>
-            <span class="task-checkbox"
-              >{% if task.completed %}✔{% else %}⭕{% endif %}</span
+        <h3>Today's Tasks</h3>
+        <ul>
+          {% for task, task_name in tasks %}
+          <li
+            class="{% if task.completed %}task-completed{% else %}task-pending{% endif %}"
+          >
+            <span>
+              <span class="task-checkbox"
+                >{% if task.completed %}✔{% else %}⭕{% endif %}</span
+              >
+              {{ task_name }}
+            </span>
+          </li>
+          {% else %}
+          <li>No tasks for today.</li>
+          {% endfor %}
+        </ul>
+
+        {% set pct = progress.percent %} {# Color + Emoji #} {% if pct <= 25 %}
+        {% set color = "red" %} {% set emoji = "😞" %} {% elif pct <= 60 %} {%
+        set color = "orange" %} {% set emoji = "🙃" %} {% else %} {% set color =
+        "green" %} {% set emoji = "🥲" %} {% endif %} {# Motivation text #} {%
+        if pct <= 12 %} {% set message = "Start small. Starting is winning." %}
+        {% elif pct <= 25 %} {% set message = "Momentum begins with one task."
+        %} {% elif pct <= 37 %} {% set message = "Good. You are moving." %} {%
+        elif pct <= 50 %} {% set message = "Halfway there. Do not stop." %} {%
+        elif pct <= 62 %} {% set message = "This is where discipline shows." %}
+        {% elif pct <= 75 %} {% set message = "Strong finish loading." %} {%
+        elif pct <= 87 %} {% set message = "Almost a perfect day." %} {% else %}
+        {% set message = "Elite day. Be proud." %} {% endif %}
+
+        <div class="progress-section">
+          <div class="progress-info">
+            <span
+              >Progress: {{ progress.completed }} / {{ progress.total }}</span
             >
-            {{ task_name }}
-          </span>
-        </li>
-        {% else %}
-        <li>No tasks for today.</li>
-        {% endfor %}
-      </ul>
-
-      {% set pct = progress.percent %} {# Color + Emoji #} {% if pct <= 25 %} {%
-      set color = "red" %} {% set emoji = "😞" %} {% elif pct <= 60 %} {% set
-      color = "orange" %} {% set emoji = "🙃" %} {% else %} {% set color =
-      "green" %} {% set emoji = "🥲" %} {% endif %} {# Motivation text #} {% if
-      pct <= 12 %} {% set message = "Start small. Starting is winning." %} {%
-      elif pct <= 25 %} {% set message = "Momentum begins with one task." %} {%
-      elif pct <= 37 %} {% set message = "Good. You are moving." %} {% elif pct
-      <= 50 %} {% set message = "Halfway there. Do not stop." %} {% elif pct <=
-      62 %} {% set message = "This is where discipline shows." %} {% elif pct <=
-      75 %} {% set message = "Strong finish loading." %} {% elif pct <= 87 %} {%
-      set message = "Almost a perfect day." %} {% else %} {% set message =
-      "Elite day. Be proud." %} {% endif %}
-
-      <div class="progress-section">
-        <div class="progress-info">
-          <span>Progress: {{ progress.completed }} / {{ progress.total }}</span>
-          <span>({{ "%.2f"|format(pct) }}%) {{ emoji }}</span>
+            <span>({{ "%.2f"|format(pct) }}%) {{ emoji }}</span>
+          </div>
+          <div class="progress-container">
+            <div
+              class="progress-bar"
+              style="width: {{ pct }}%; background: {{ color }};"
+            ></div>
+          </div>
+          <p class="progress-message"><em>{{ message }}</em></p>
         </div>
-        <div class="progress-container">
-          <div
-            class="progress-bar"
-            style="width: {{ pct }}%; background: {{ color }};"
-          ></div>
-        </div>
-        <p class="progress-message"><em>{{ message }}</em></p>
+
+        <nav>
+          <a href="/tasks/today">Mark Tasks</a>
+          <a href="/create">Create Tasks</a>
+          <a href="/dashboard">Dashboard</a>
+        </nav>
       </div>
-
-      <nav>
-        <a href="/tasks/today">Mark Tasks</a>
-        <a href="/create">Create Tasks</a>
-        <a href="/dashboard">Dashboard</a>
-      </nav>
     </div>
   </body>
 </html>

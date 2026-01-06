@@ -59,15 +59,8 @@ body {
   border-radius: 24px 24px 0 0;
 }
 
-/* Dashboard specific - scrollable content */
-body.dashboard-page .container {
-  height: calc(100vh - 4vh);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-body.dashboard-page .container h1 {
+/* Scrollable content for all pages */
+.container h1 {
   flex-shrink: 0;
   margin-bottom: 20px;
 }
@@ -156,14 +149,16 @@ h3::before {
 }
 
 /* Task List Styles */
+.dashboard-content ul {
+  list-style: none;
+  margin: 15px 0;
+  overflow: visible;
+  padding-right: 5px;
+}
+
 ul {
   list-style: none;
   margin: 15px 0;
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 5px;
-  min-height: 0;
 }
 
 ul::-webkit-scrollbar {
@@ -267,7 +262,6 @@ ul li:hover .task-checkbox {
   border-radius: 16px;
   border: 1px solid rgba(102, 126, 234, 0.15);
   backdrop-filter: blur(10px);
-  flex-shrink: 0;
 }
 
 .progress-info {
@@ -338,7 +332,6 @@ ul li:hover .task-checkbox {
 /* Form Styles */
 form {
   margin: 15px 0;
-  flex-shrink: 0;
 }
 
 input[type="text"] {
@@ -424,10 +417,9 @@ button.secondary:hover {
 /* Navigation Styles */
 nav {
   text-align: center;
-  margin-top: auto;
+  margin-top: 20px;
   padding-top: 20px;
   border-top: 2px solid rgba(102, 126, 234, 0.2);
-  flex-shrink: 0;
   display: flex;
   gap: 12px;
   justify-content: center;

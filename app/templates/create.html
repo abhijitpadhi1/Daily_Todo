@@ -8,42 +8,44 @@
     <div class="container">
       <h1>Create Daily Task</h1>
 
-      <form method="post" action="/create/add">
-        <div style="margin-bottom: 15px;">
-          <label for="task-name" style="display: block; margin-bottom: 8px; font-weight: 600;">Task Name:</label>
-          <input type="text" id="task-name" name="name" placeholder="Enter task name" required />
-        </div>
-        <button type="submit">Add Task</button>
-      </form>
-
-      <h2>Existing Tasks</h2>
-
-      <ul>
-        {% for t in templates %}
-        <li class="task-template">
-          <div class="task-template-info">
-            <strong>{{ t.name }}</strong>
-            <span class="task-status {% if t.is_active %}status-active{% else %}status-inactive{% endif %}">
-              {% if t.is_active %}✔ Active{% else %}✖ Inactive{% endif %}
-            </span>
+      <div class="dashboard-content">
+        <form method="post" action="/create/add">
+          <div style="margin-bottom: 15px;">
+            <label for="task-name" style="display: block; margin-bottom: 8px; font-weight: 600;">Task Name:</label>
+            <input type="text" id="task-name" name="name" placeholder="Enter task name" required />
           </div>
-          <form
-            method="post"
-            action="/create/{{ t.id }}/toggle"
-            style="display: inline"
-          >
-            <button type="submit" class="secondary">
-              {% if t.is_active %}Disable{% else %}Enable{% endif %}
-            </button>
-          </form>
-        </li>
-        {% else %}
-        <li>No task templates defined.</li>
-        {% endfor %}
-      </ul>
+          <button type="submit">Add Task</button>
+        </form>
 
-      <hr />
-      <a href="/" class="back-link">🔙 Back to Home</a>
+        <h2>Existing Tasks</h2>
+
+        <ul>
+          {% for t in templates %}
+          <li class="task-template">
+            <div class="task-template-info">
+              <strong>{{ t.name }}</strong>
+              <span class="task-status {% if t.is_active %}status-active{% else %}status-inactive{% endif %}">
+                {% if t.is_active %}✔ Active{% else %}✖ Inactive{% endif %}
+              </span>
+            </div>
+            <form
+              method="post"
+              action="/create/{{ t.id }}/toggle"
+              style="display: inline"
+            >
+              <button type="submit" class="secondary">
+                {% if t.is_active %}Disable{% else %}Enable{% endif %}
+              </button>
+            </form>
+          </li>
+          {% else %}
+          <li>No task templates defined.</li>
+          {% endfor %}
+        </ul>
+
+        <hr />
+        <a href="/" class="back-link">🔙 Back to Home</a>
+      </div>
     </div>
   </body>
 </html>
